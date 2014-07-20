@@ -42,4 +42,13 @@ describe('bad feeds', function(){
     });
 
   });
+
+  describe('invalid character', function () {
+    var feed = __dirname + '/feeds/invalid-characters.xml';
+
+    it('will fail', function (done) {
+      fs.createReadStream(feed).pipe(new FeedParser())
+    });
+
+  });
 });
