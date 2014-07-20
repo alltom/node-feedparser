@@ -46,8 +46,20 @@ describe('bad feeds', function(){
   describe('invalid character', function () {
     var feed = __dirname + '/feeds/invalid-characters.xml';
 
-    it('will fail', function (done) {
+    it('should emit an error and no data', function (done) {
       fs.createReadStream(feed).pipe(new FeedParser())
+        .once('readable', function () {
+          done(new Error('Shouldn\'t happen'));
+        })
+        .on('error', function (err) {
+          error = err;
+        })
+        .on('end', function () {
+          console.log('error is', error);
+          assert.ok(error instanceof Error);
+          assert.equal(error.message, 'Not a feed');
+          done();
+        });
     });
 
   });

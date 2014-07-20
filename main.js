@@ -1020,7 +1020,10 @@ FeedParser.prototype.handleItem = function handleItem (node, type, options){
 
 // Naive Stream API
 FeedParser.prototype._transform = function (data, encoding, done) {
-  this.stream.write(data);
+  try {
+    this.stream.write(data);
+  } catch (e) {
+  }
   done();
 };
 
